@@ -251,3 +251,28 @@ $$;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
+
+-- ============================================================
+-- grants: table-level privileges for the API roles. RLS policies
+-- above scope which rows are visible; without these grants, Postgres
+-- denies access before RLS is ever evaluated (Supabase no longer
+-- auto-exposes new tables to anon/authenticated/service_role).
+-- ============================================================
+grant usage on schema public to anon, authenticated, service_role;
+
+grant select, update on public.profiles to authenticated;
+grant select, insert, update, delete on public.portfolios to authenticated;
+grant select, insert, update, delete on public.holdings to authenticated;
+grant select, insert, update, delete on public.watchlist_items to authenticated;
+
+grant select on public.stock_metadata_cache to anon, authenticated;
+grant select, insert, update, delete on public.stock_metadata_cache to service_role;
+
+grant select on public.quote_cache to anon, authenticated;
+grant select, insert, update, delete on public.quote_cache to service_role;
+
+grant select on public.candle_cache to anon, authenticated;
+grant select, insert, update, delete on public.candle_cache to service_role;
+
+grant select, insert, update, delete on public.community_posts to authenticated;
+grant select, insert, update, delete on public.community_post_likes to authenticated;
