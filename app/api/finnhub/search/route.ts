@@ -9,8 +9,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const query = request.nextUrl.searchParams.get("q");
-  if (!query || query.trim().length === 0) {
+  const query = request.nextUrl.searchParams.get("q")?.trim().slice(0, 50);
+  if (!query || query.length === 0) {
     return NextResponse.json({ results: [] });
   }
 

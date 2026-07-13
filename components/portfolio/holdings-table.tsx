@@ -49,7 +49,7 @@ function SortButton({
 
 export function HoldingsTable({ holdings }: { holdings: Holding[] }) {
   const symbols = holdings.map((h) => h.symbol);
-  const { data: quotes, isLoading } = useQuotes(symbols);
+  const { data: quotes, isLoading, isError } = useQuotes(symbols);
   const [sortKey, setSortKey] = useState<SortKey>("symbol");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [isPending, startTransition] = useTransition();
@@ -168,10 +168,22 @@ export function HoldingsTable({ holdings }: { holdings: Holding[] }) {
               </TableCell>
               <TableCell>{Number(holding.shares).toLocaleString()}</TableCell>
               <TableCell>
-                {isLoading || !quote ? <Skeleton className="h-5 w-16" /> : <PriceBadge value={quote.percentChange} />}
+                {isError ? (
+                  <span className="text-sm text-muted-foreground">—</span>
+                ) : isLoading || !quote ? (
+                  <Skeleton className="h-5 w-16" />
+                ) : (
+                  <PriceBadge value={quote.percentChange} />
+                )}
               </TableCell>
               <TableCell className="tabular-nums">
-                {isLoading || !quote ? <Skeleton className="h-5 w-16" /> : `$${quote.price.toFixed(2)}`}
+                {isError ? (
+                  <span className="text-sm text-muted-foreground">Unavailable</span>
+                ) : isLoading || !quote ? (
+                  <Skeleton className="h-5 w-16" />
+                ) : (
+                  `$${quote.price.toFixed(2)}`
+                )}
               </TableCell>
               <TableCell>
                 <Button

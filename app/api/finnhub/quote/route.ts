@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { requireUser } from "@/lib/api-auth";
 import { getQuotes } from "@/lib/finnhub/cache";
+import { parseSymbolsParam } from "@/lib/finnhub/validate";
 
 export async function GET(request: NextRequest) {
   const user = await requireUser();
@@ -13,10 +14,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Missing symbols param" }, { status: 400 });
   }
 
-  const symbols = symbolsParam
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
+  const symbols = parseSymbolsParam(symbolsParam);
+  if (symbols.length === 0) {
+    return NextResponse.json({ quotes: {} });
+  }
 
   const quotes = await getQuotes(symbols);
   return NextResponse.json({ quotes });

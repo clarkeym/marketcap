@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { requireUser } from "@/lib/api-auth";
 import { getProfile } from "@/lib/finnhub/cache";
+import { isValidSymbol } from "@/lib/finnhub/validate";
 
 export async function GET(request: NextRequest) {
   const user = await requireUser();
@@ -9,8 +10,8 @@ export async function GET(request: NextRequest) {
   }
 
   const symbol = request.nextUrl.searchParams.get("symbol");
-  if (!symbol) {
-    return NextResponse.json({ error: "Missing symbol param" }, { status: 400 });
+  if (!symbol || !isValidSymbol(symbol)) {
+    return NextResponse.json({ error: "Missing or invalid symbol param" }, { status: 400 });
   }
 
   const profile = await getProfile(symbol);

@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { requireUser } from "@/lib/api-auth";
 import { fetchFinnhub } from "@/lib/finnhub/client";
 import type { FinnhubNewsItem, NewsItem } from "@/lib/finnhub/types";
+import { isValidSymbol } from "@/lib/finnhub/validate";
 
 function toDateString(date: Date) {
   return date.toISOString().slice(0, 10);
@@ -14,6 +15,9 @@ export async function GET(request: NextRequest) {
   }
 
   const symbol = request.nextUrl.searchParams.get("symbol");
+  if (symbol && !isValidSymbol(symbol)) {
+    return NextResponse.json({ error: "Invalid symbol param" }, { status: 400 });
+  }
 
   try {
     let items: FinnhubNewsItem[];

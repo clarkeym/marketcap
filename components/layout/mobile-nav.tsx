@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LineChart, LogOut, Menu } from "lucide-react";
+import { LineChart, LogOut, Menu, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import { NAV_ITEMS } from "@/lib/nav-config";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +18,7 @@ import { cn } from "@/lib/utils";
 
 export function MobileNav() {
   const pathname = usePathname();
+  const { resolvedTheme, setTheme } = useTheme();
 
   return (
     <header className="flex items-center justify-between border-b bg-card px-4 py-3 md:hidden">
@@ -46,6 +48,17 @@ export function MobileNav() {
               </DropdownMenuItem>
             );
           })}
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            className="flex items-center gap-2"
+            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+            suppressHydrationWarning
+          >
+            <Sun className="hidden size-4 dark:block" />
+            <Moon className="size-4 dark:hidden" />
+            <span className="hidden dark:inline">Light mode</span>
+            <span className="inline dark:hidden">Dark mode</span>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             variant="destructive"
