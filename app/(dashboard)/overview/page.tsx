@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { recordPortfolioSnapshot } from "@/lib/portfolio/snapshot";
 import { OverviewDashboard } from "@/components/portfolio/overview-dashboard";
+import { NewsList } from "@/components/news/news-list";
 
 export default async function OverviewPage() {
   const supabase = await createClient();
@@ -29,6 +30,11 @@ export default async function OverviewPage() {
         <p className="text-muted-foreground">Your portfolio at a glance.</p>
       </div>
       <OverviewDashboard holdings={holdings ?? []} history={history ?? []} />
+
+      <div>
+        <h2 className="mb-3 text-sm font-medium text-muted-foreground">Market News</h2>
+        <NewsList emptyMessage="No market news available right now." />
+      </div>
     </div>
   );
 }

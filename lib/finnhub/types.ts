@@ -67,3 +67,25 @@ export type CandlePoint = {
   close: number;
   volume: number;
 };
+
+export type FinnhubNewsItem = {
+  category: string;
+  datetime: number;
+  headline: string;
+  id: number;
+  image: string;
+  related: string;
+  source: string;
+  summary: string;
+  url: string;
+};
+
+export type NewsItem = {
+  id: number;
+  headline: string;
+  summary: string;
+  source: string;
+  url: string;
+  imageUrl: string | null;
+  publishedAt: string;
+};

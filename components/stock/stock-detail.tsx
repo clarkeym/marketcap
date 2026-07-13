@@ -8,6 +8,7 @@ import { StatisticsChart } from "@/components/stock/statistics-chart";
 import { PriceBadge } from "@/components/stock/price-badge";
 import { WatchlistButton } from "@/components/stock/watchlist-button";
 import { AddHoldingDialog } from "@/components/portfolio/add-holding-dialog";
+import { NewsList } from "@/components/news/news-list";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -75,6 +76,11 @@ export function StockDetail({ symbol }: { symbol: string }) {
           )}
         </CardContent>
       </Card>
+
+      <div>
+        <h2 className="mb-3 text-sm font-medium text-muted-foreground">News</h2>
+        <NewsList symbol={symbol} emptyMessage="No recent news for this stock." />
+      </div>
     </div>
   );
 }
