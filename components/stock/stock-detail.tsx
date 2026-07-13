@@ -18,6 +18,10 @@ export function StockDetail({ symbol }: { symbol: string }) {
   const { data: candles, isLoading: candlesLoading } = useStockCandles(symbol);
   const { data: quotes, isLoading: quoteLoading } = useQuotes([symbol]);
   const quote = quotes?.[symbol];
+  const chartData = (candles ?? []).map((point) => ({
+    date: new Date(point.time * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+    value: point.close,
+  }));
 
   return (
     <div className="flex flex-col gap-6">
@@ -67,7 +71,7 @@ export function StockDetail({ symbol }: { symbol: string }) {
           {candlesLoading ? (
             <Skeleton className="h-[280px] w-full" />
           ) : (
-            <StatisticsChart data={candles ?? []} />
+            <StatisticsChart data={chartData} />
           )}
         </CardContent>
       </Card>

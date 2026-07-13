@@ -1,25 +1,29 @@
 "use client";
 
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import type { CandlePoint } from "@/lib/finnhub/types";
 
-export function StatisticsChart({ data }: { data: CandlePoint[] }) {
-  const chartData = data.map((d) => ({
-    date: new Date(d.time * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
-    value: d.close,
-  }));
+export type StatisticsChartPoint = { date: string; value: number };
 
-  if (chartData.length === 0) {
+export function StatisticsChart({
+  data,
+  valueLabel = "Close",
+  emptyMessage = "No chart data available.",
+}: {
+  data: StatisticsChartPoint[];
+  valueLabel?: string;
+  emptyMessage?: string;
+}) {
+  if (data.length === 0) {
     return (
       <div className="flex h-[280px] items-center justify-center text-sm text-muted-foreground">
-        No chart data available.
+        {emptyMessage}
       </div>
     );
   }
 
   return (
     <ResponsiveContainer width="100%" height={280}>
-      <AreaChart data={chartData}>
+      <AreaChart data={data}>
         <defs>
           <linearGradient id="statisticsFill" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3} />
@@ -49,7 +53,7 @@ export function StatisticsChart({ data }: { data: CandlePoint[] }) {
             color: "var(--popover-foreground)",
           }}
           labelStyle={{ color: "var(--popover-foreground)" }}
-          formatter={(value) => [`$${Number(value).toFixed(2)}`, "Close"]}
+          formatter={(value) => [`$${Number(value).toFixed(2)}`, valueLabel]}
         />
         <Area
           type="monotone"
