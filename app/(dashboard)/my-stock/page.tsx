@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { StockSearchCombobox } from "@/components/stock/stock-search-combobox";
 import { PriceBadge } from "@/components/stock/price-badge";
+import { WatchlistSection } from "@/components/stock/watchlist-section";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuotes } from "@/hooks/use-quotes";
 
@@ -19,6 +20,8 @@ export default function MyStockPage() {
       </div>
 
       <StockSearchCombobox />
+
+      <WatchlistSection />
 
       <div>
         <h2 className="mb-3 text-sm font-medium text-muted-foreground">Popular stocks</h2>
