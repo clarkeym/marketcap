@@ -1,3 +1,4 @@
+import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PriceBadge } from "@/components/stock/price-badge";
@@ -36,12 +37,18 @@ export function PortfolioValueCard({
           overall.
         </p>
         <div className="flex gap-2">
-          <Button type="button" variant="outline" size="sm" onClick={onSortWorst}>
+          <Button type="button" variant="outline" size="sm" className="rounded-full" onClick={onSortWorst}>
             Worst Performance
           </Button>
-          <Button type="button" size="sm" onClick={onSortBest}>
+          <Button type="button" size="sm" className="rounded-full" onClick={onSortBest}>
             Top Performance
           </Button>
+        </div>
+        <div className="flex items-center gap-3 rounded-2xl bg-accent px-4 py-3 text-sm text-accent-foreground">
+          <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+            <Sparkles className="size-3.5" />
+          </span>
+          <span>Here&apos;s to improving your portfolio and understanding how investing works.</span>
         </div>
       </CardContent>
     </Card>

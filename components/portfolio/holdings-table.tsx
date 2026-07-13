@@ -6,8 +6,10 @@ import { ArrowDown, ArrowUp, ArrowUpDown, Trash2 } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { PriceBadge } from "@/components/stock/price-badge";
+import { StockAvatar } from "@/components/stock/stock-avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuotes } from "@/hooks/use-quotes";
+import { useStockProfile } from "@/hooks/use-stock-profile";
 import { deleteHolding } from "@/app/actions/holdings";
 
 export type Holding = {
@@ -44,6 +46,20 @@ function SortButton({
       {label}
       <Icon className="size-3.5" />
     </button>
+  );
+}
+
+function HoldingNameCell({ symbol }: { symbol: string }) {
+  const { data: profile } = useStockProfile(symbol);
+
+  return (
+    <div className="flex items-center gap-2.5">
+      <StockAvatar symbol={symbol} className="size-8" />
+      <div className="min-w-0">
+        <p className="truncate text-sm font-medium">{symbol}</p>
+        <p className="truncate text-xs font-normal text-muted-foreground">{profile?.companyName || " "}</p>
+      </div>
+    </div>
   );
 }
 
@@ -158,7 +174,9 @@ export function HoldingsTable({ holdings }: { holdings: Holding[] }) {
           const quote = quotes?.[holding.symbol];
           return (
             <TableRow key={holding.id}>
-              <TableCell className="font-medium">{holding.symbol}</TableCell>
+              <TableCell className="font-medium">
+                <HoldingNameCell symbol={holding.symbol} />
+              </TableCell>
               <TableCell>
                 {new Date(holding.purchase_date).toLocaleDateString("en-US", {
                   month: "short",

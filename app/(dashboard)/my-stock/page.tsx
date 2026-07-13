@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { StockSearchCombobox } from "@/components/stock/stock-search-combobox";
 import { PriceBadge } from "@/components/stock/price-badge";
+import { StockAvatar } from "@/components/stock/stock-avatar";
 import { WatchlistSection } from "@/components/stock/watchlist-section";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuotes } from "@/hooks/use-quotes";
@@ -32,9 +33,12 @@ export default function MyStockPage() {
               <Link
                 key={symbol}
                 href={`/my-stock/${symbol}`}
-                className="flex items-center justify-between rounded-lg border bg-card px-4 py-3 text-sm hover:bg-accent"
+                className="flex items-center justify-between rounded-xl border bg-card px-4 py-3 text-sm hover:bg-accent"
               >
-                <span className="font-medium">{symbol}</span>
+                <div className="flex items-center gap-2.5">
+                  <StockAvatar symbol={symbol} className="size-8" />
+                  <span className="font-medium">{symbol}</span>
+                </div>
                 {isLoading || !quote ? (
                   <Skeleton className="h-5 w-20" />
                 ) : (

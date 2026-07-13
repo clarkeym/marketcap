@@ -21,12 +21,12 @@ export function MobileNav() {
   const { resolvedTheme, setTheme } = useTheme();
 
   return (
-    <header className="flex items-center justify-between border-b bg-card px-4 py-3 md:hidden">
+    <header className="flex items-center justify-between border-b border-sidebar-border bg-sidebar px-4 py-3 md:hidden">
       <div className="flex items-center gap-2">
-        <div className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+        <div className="flex size-8 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-400 text-white shadow-sm">
           <LineChart className="size-4" />
         </div>
-        <span className="font-semibold">MarketCap</span>
+        <span className="font-semibold text-sidebar-foreground">MarketCap</span>
       </div>
 
       <DropdownMenu>

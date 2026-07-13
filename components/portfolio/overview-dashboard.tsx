@@ -73,7 +73,6 @@ export function OverviewDashboard({
           <CardContent>
             <StatisticsChart
               data={chartData}
-              valueLabel="Portfolio value"
               emptyMessage="Check back tomorrow to see your portfolio value trend."
             />
           </CardContent>

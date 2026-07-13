@@ -1,16 +1,27 @@
 "use client";
 
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import type { TooltipContentProps } from "recharts";
 
 export type StatisticsChartPoint = { date: string; value: number };
 
+function ChartTooltip({ active, payload }: Partial<TooltipContentProps<number, string>>) {
+  if (!active || !payload || payload.length === 0) return null;
+  const value = payload[0].value;
+  if (value === undefined) return null;
+
+  return (
+    <div className="rounded-full bg-foreground px-3 py-1.5 text-xs font-semibold whitespace-nowrap text-background shadow-lg">
+      ${Number(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+    </div>
+  );
+}
+
 export function StatisticsChart({
   data,
-  valueLabel = "Close",
   emptyMessage = "No chart data available.",
 }: {
   data: StatisticsChartPoint[];
-  valueLabel?: string;
   emptyMessage?: string;
 }) {
   if (data.length === 0) {
@@ -26,7 +37,7 @@ export function StatisticsChart({
       <AreaChart data={data}>
         <defs>
           <linearGradient id="statisticsFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3} />
+            <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.35} />
             <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
           </linearGradient>
         </defs>
@@ -46,21 +57,15 @@ export function StatisticsChart({
           tick={{ fill: "var(--muted-foreground)", fontSize: 12 }}
         />
         <Tooltip
-          contentStyle={{
-            background: "var(--popover)",
-            border: "1px solid var(--border)",
-            borderRadius: 8,
-            color: "var(--popover-foreground)",
-          }}
-          labelStyle={{ color: "var(--popover-foreground)" }}
-          formatter={(value) => [`$${Number(value).toFixed(2)}`, valueLabel]}
+          content={<ChartTooltip />}
+          cursor={{ stroke: "var(--muted-foreground)", strokeDasharray: "4 4" }}
         />
         <Area
           type="monotone"
           dataKey="value"
           stroke="var(--primary)"
           fill="url(#statisticsFill)"
-          strokeWidth={2}
+          strokeWidth={2.5}
         />
       </AreaChart>
     </ResponsiveContainer>

@@ -5,6 +5,7 @@ import { Plus } from "lucide-react";
 import { useWatchlist } from "@/hooks/use-watchlist";
 import { useQuotes } from "@/hooks/use-quotes";
 import { PriceBadge } from "@/components/stock/price-badge";
+import { StockAvatar } from "@/components/stock/stock-avatar";
 import { WatchlistButton } from "@/components/stock/watchlist-button";
 import { AddHoldingDialog } from "@/components/portfolio/add-holding-dialog";
 import { Button } from "@/components/ui/button";
@@ -34,8 +35,9 @@ export function WatchlistSection() {
         {watchlist.map((symbol) => {
           const quote = quotes?.[symbol];
           return (
-            <div key={symbol} className="flex items-center justify-between gap-3 rounded-lg border bg-card px-4 py-3">
-              <Link href={`/my-stock/${symbol}`} className="flex-1 text-sm font-medium hover:underline">
+            <div key={symbol} className="flex items-center justify-between gap-3 rounded-xl border bg-card px-4 py-3">
+              <Link href={`/my-stock/${symbol}`} className="flex flex-1 items-center gap-2.5 text-sm font-medium hover:underline">
+                <StockAvatar symbol={symbol} className="size-8" />
                 {symbol}
               </Link>
               {quotesLoading || !quote ? (
