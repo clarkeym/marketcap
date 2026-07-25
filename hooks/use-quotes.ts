@@ -16,7 +16,7 @@ export function useQuotes(symbols: string[]) {
       const data = await res.json();
       return data.quotes;
     },
-    enabled: uniqueSymbols.length > 0 && typeof window !== "undefined",
+    enabled: uniqueSymbols.length > 0,
     refetchInterval: POLL_INTERVAL_MS,
   });
 }

@@ -12,7 +12,7 @@ export function useStockProfile(symbol: string) {
       const data = await res.json();
       return data.profile;
     },
-    enabled: symbol.length > 0 && typeof window !== "undefined",
+    enabled: symbol.length > 0,
     staleTime: 60 * 60 * 1000,
   });
 }

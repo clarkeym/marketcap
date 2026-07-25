@@ -25,6 +25,6 @@ export function useStockSearch(query: string) {
       const data = await res.json();
       return data.results;
     },
-    enabled: debouncedQuery.trim().length > 0 && typeof window !== "undefined",
+    enabled: debouncedQuery.trim().length > 0,
   });
 }

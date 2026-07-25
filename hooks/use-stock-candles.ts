@@ -18,7 +18,7 @@ export function useStockCandles(symbol: string, resolution: string = "D") {
       const data = await res.json();
       return data.candles;
     },
-    enabled: symbol.length > 0 && typeof window !== "undefined",
+    enabled: symbol.length > 0,
     staleTime: 5 * 60 * 1000,
   });
 }

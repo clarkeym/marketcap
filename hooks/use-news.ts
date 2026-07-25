@@ -13,7 +13,6 @@ export function useNews(symbol?: string) {
       const data = await res.json();
       return data.news;
     },
-    enabled: typeof window !== "undefined",
     staleTime: 15 * 60 * 1000,
   });
 }
